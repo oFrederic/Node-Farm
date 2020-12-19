@@ -1,6 +1,16 @@
 const fs = require('fs');
 const http = require('http');
 
+const tempOverview = fs.readFileSync(
+  './templates/template-overview.html',
+  'utf-8'
+);
+const tempCard = fs.readFileSync('./templates/template-card.html', 'utf-8');
+const tempProduct = fs.readFileSync(
+  './templates/template-product.html',
+  'utf-8'
+);
+
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 const dataObj = JSON.parse(data);
 
@@ -10,10 +20,12 @@ const server = http.createServer((req, res) => {
   switch (pathName) {
     case '/':
     case '/overview':
-      res.end('OVERVIEW');
+      res.writeHead(200, { 'Content-type': 'text/html' });
+      res.end(tempOverview);
       break;
     case '/product':
-      res.end('PRODUCT');
+      res.writeHead(200, { 'Content-type': 'text/html' });
+      res.end(tempProduct);
       break;
     case '/api':
       res.writeHead(200, { 'Content-type': 'application/json' });
